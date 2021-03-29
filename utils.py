@@ -4,7 +4,7 @@ from socket import timeout
 from collections import defaultdict
 from time import sleep
 from threading import Thread, Event
-from kombu import Queue, ConsumerMixin
+from kombu import Queue, Consumer
 from kombu.pools import producers, connections
 from kombu.exceptions import MessageStateError
 
@@ -117,13 +117,13 @@ class Subscription(object):
 
         for handler in self._handlers[routing_key]:
             try:
-                handler(body, message)
+                handler(body)
             except Exception as e:
                 self._on_exception(e)
 
         for handler in self._handlers_for_all:
             try:
-                handler(body, message)
+                handler(body)
             except Exception as e:
                 self._on_exception(e)
 
