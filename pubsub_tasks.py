@@ -34,8 +34,7 @@ def publish(routing_key: str, payload: dict):
 
 
 @pubsub_app.task
-def subscribe(binding_key: str, sub_request: SubscriptionRequest):
+def subscribe(binding_key: str):
     worker = Worker(conn, exchange)
-    sub = worker.subscribe(binding_key)
-    for key, on_handler in sub_request._on.items():
-        sub.on(key, on_handler)
+    sub = worker.subscribe(binding_key)\
+        .on("animals.rabbit", on_rabbit.delay)
