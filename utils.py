@@ -156,12 +156,11 @@ class Subscription(object):
                 sleep(self._reconnect_timeout)
 
 
-class Yosun(object):
+class Worker(object):
     def __init__(self, connection, exchange, key_prefix=''):
         self._connection = connection
         self._exchange = exchange
         self._key_prefix = key_prefix
-        self._payload = {}
         self._subscriptions = {}
 
     @property
@@ -175,10 +174,6 @@ class Yosun(object):
     @property
     def key_prefix(self):
         return self._key_prefix
-
-    @property
-    def payload(self):
-        return self._payload
 
     def subscribe(self, binding_key, reconnect_timeout=10, on_exception=None):
         if binding_key in self._subscriptions and not self._subscriptions[binding_key].is_alive():
@@ -196,7 +191,6 @@ class Yosun(object):
             self._subscriptions[binding_key].stop()
 
     def _publish(self, routing_key, payload, **kwargs):
-        payload.update(self.payload)
         kwargs['exchange'] = self._exchange
         kwargs['routing_key'] = '{0}{1}'.format(self._key_prefix, routing_key)
 
