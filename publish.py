@@ -1,4 +1,8 @@
-from pubsub_tasks import publish
+from Lib.actions import Action
+from Lib.celery_producer import CeleryProducer
+from Lib.queues import BindingKey
+from tasks import event_bus
 
-publish.delay("animals.rabbit", {"id": 42})
-publish.delay("animals.cat", {"id": 23})
+print(event_bus.app.conf.task_routes)
+producer = CeleryProducer(event_bus.exchange, event_bus.conn)
+producer.publish(BindingKey.ESTIMA, Action.CREATION, {"id": 42})
