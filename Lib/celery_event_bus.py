@@ -8,7 +8,7 @@ class CeleryEventBus:
 
     def __init__(self, app: Celery):
         self.exchange = Exchange('tasks', type='topic', broker="pyamqp://guest:guest@localhost//")
-        self.conn = Connection('amqp://guest:guest@localhost//')
+        self.conn = Connection('pyamqp://guest:guest@localhost//')
         self.app = app
         self.app.conf.task_create_missing_queues = False
         self.app.conf.task_queues = [
