@@ -2,8 +2,8 @@ from collections import Callable
 
 from celery import Celery, Task
 
-from Lib.actions import Action
-from Lib.queues import BindingKey
+from PubSubLib.actions import Action
+from PubSubLib.queues import BindingKey
 
 
 def subscribe(app: Celery, binding_key: BindingKey, action: Action) -> Callable:

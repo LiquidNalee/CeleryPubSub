@@ -4,8 +4,8 @@ from threading import Thread
 from kombu import Exchange, Connection
 from kombu.pools import producers
 
-from Lib.actions import Action
-from Lib.queues import BindingKey
+from PubSubLib.actions import Action
+from PubSubLib.queues import BindingKey
 
 logger = logging.getLogger(__name__)
 

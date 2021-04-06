@@ -1,10 +1,10 @@
+import kombu
 from kombu import Exchange, Connection
 
-from Lib.actions import Action
-from Lib.celery_producer import CeleryProducer
-from Lib.queues import BindingKey
-
-
-producer = CeleryProducer(Exchange(type='topic', broker="amqp://"),
-                          Connection("amqp://"))
-producer.publish(BindingKey.ESTIMA, Action.CREATION, {"id": 42})
+producer = kombu.Producer(
+            Connection("amqp://").channel(),
+            exchange=Exchange("consume", type='topic', broker="amqp://"),
+            routing_key=f"ESTIMA.CREATION",
+            serializer='json'
+        )
+producer.publish(body={"id": 42})
