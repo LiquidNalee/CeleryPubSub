@@ -6,11 +6,10 @@ from kombu import Queue
 
 from Lib.actions import Action
 from Lib.celery_consumer import subscribe
-from Lib.celery_event_bus import CeleryEventBus
+from Lib.celery_event_bus import CeleryEventBus, event_bus
 from Lib.queues import BindingKey
 
 app = Celery('tasks', broker="pyamqp://guest:guest@localhost//")
-event_bus = CeleryEventBus()
 
 queue_name = str(uuid4())
 
